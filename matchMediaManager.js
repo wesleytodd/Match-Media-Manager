@@ -72,8 +72,10 @@ var MatchMediaManager = (function($, _, MatchMediaManager) {
 	/**
 	 * window.onResize
 	 */
-	var resize = (!_t($, 'undefined')) ? $(window).resize : function(fnc) {
-		if (window.addEventListener) {
+	var resize = function(fnc) {
+		if (!_t($, 'undefined')) {
+			$(window).resize(fnc);
+		} else if (window.addEventListener) {
 			window.addEventListener('resize', fnc);
 		} else {
 			window.attachEvent('onresize', fnc);
@@ -143,7 +145,7 @@ var MatchMediaManager = (function($, _, MatchMediaManager) {
 		// test the media query when it is added, but not the others already added
 		var matches = _mq.test(false);
 		if (matches && _t(callbacks, 'function')) {
-				callbacks();
+			callbacks();
 		} else if (matches) {
 			callbacks.on();
 		} else if (_t(callbacks.off, 'function')) {
