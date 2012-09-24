@@ -1,0 +1,21 @@
+{
+	"name": "Match Media Manager",
+	"version": "0.1",
+	"author": "Wes Todd <wes@wesleytodd.com>",
+	"description": "A manager object for breakpoints in a responsive design for triggering callback functions.",
+	"homepage": "http://wesleytodd.com",
+	"dependencies" : {
+		'matchMedia' : '*'
+	},
+	"repository": {
+		"type": "git",
+		"url": ""
+	},
+	"scripts": {
+		"browser-setup": "make browser-setup",
+		"node-setup": "make node-setup",
+		"test": "make test",
+		"test-cov": "make text-cov",
+		"closure": "make closure"
+	}
+}

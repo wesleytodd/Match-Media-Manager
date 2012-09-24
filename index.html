@@ -1,0 +1,58 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Match Media Manager</title>
+	<meta name="description" content="A JavaScript library for managing callbacks based on media queries">
+	<meta name="author" content="Wes Todd">
+</head>
+<body>
+
+	<div id="page-wrap">
+		<header>
+			<h1>Match Media Manager</h1>
+		</header>
+		<section id="tester-container">
+			<p>Test a media query by entering it in the box and clicking "test"</p>
+			<textarea id="mmm-tester"></textarea>
+			<button id="tttteeeesssstttt">Test</button>
+		</section>
+		<script>
+			var c = document.getElementById('tester-container'),
+				d = document.createElement('div');
+			function passes(){
+				d.innerHTML = "Passes!!!!  Your Media Query is currently in effect.";
+				d.className = "pass";
+				c.appendChild(d);
+			}
+			function fails(){
+				d.innerHTML = "Fail!!!!  Your Media Query is <strong>NOT</strong> currently in effect.";
+				d.className = "fail";
+				c.appendChild(d);
+			}
+			document.getElementById('tttteeeesssstttt').onclick = function(){
+				mmm = MatchMediaManager();
+				var mq = document.getElementById('mmm-tester').value;
+				mmm.addMediaQuery(mq, {
+					on : passes,
+					off : fails
+				});
+			};
+		</script>
+	</div>
+
+	<!--<script src="matchmedia/matchMedia.js"></script>
+	<script src="matchMediaManager.js"></script>-->
+	<script src="matchMediaManager.min.js"></script>
+	<script>
+		var mmm = MatchMediaManager({
+			'(min-width: 500px)' : function(){
+				console.log('more than 500px');
+			},
+			'(max-width: 499px)' : function(){
+				console.log('less than 500px');
+			}
+		});
+	</script>
+</body>
+</html>
