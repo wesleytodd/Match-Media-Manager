@@ -1,6 +1,6 @@
 # Match Media Manager #
 
-`MatchMediaManager` is a library to assist with jacascript callbacks based on Media Queries.  For example, if a link opens a light-box when on a large screen, but you need to re-direct that to a single page version of that content for small screens, you can do something like (with jQuery, but jQuery is not required):
+`MatchMediaManager` is a library to assist with javascript callbacks based on Media Queries.  For example, if a link opens a light-box when on a large screen, but you need to re-direct that to a single page version of the content for small screens, you can do something like (jQuery is not required):
 
 	MatchMediaManager({
 		'(min-width: 500px)' : {
@@ -37,6 +37,6 @@ The second can be used to add new Media Queries to the list on the fly:
 
 ## The Future ##
 
-I need to mess with it a bit more, but I think that a `removeMediQuery` method would be helpful.  I will also be writing unit tests, I just did't have time for that yet.
+I need to mess with it a bit more, but I think that a `removeMediQuery` method would be helpful.  I will also be writing unit tests, I just didn't have time for that yet.
 
 Other Ideas?  [Email me](http://wesleytodd.com/contact/).

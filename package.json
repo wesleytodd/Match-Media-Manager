@@ -9,7 +9,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": ""
+		"url": "git://github.com/wesleytodd/Match-Media-Manager.git"
 	},
 	"scripts": {
 		"browser-setup": "make browser-setup",
