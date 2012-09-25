@@ -5,54 +5,107 @@
 	<title>Match Media Manager</title>
 	<meta name="description" content="A JavaScript library for managing callbacks based on media queries">
 	<meta name="author" content="Wes Todd">
+	<link href='http://fonts.googleapis.com/css?family=Metal+Mania' rel='stylesheet' type='text/css'>
+	<style>
+		body, html {
+			font-family: Arial, sans-serif;
+			background: #232323;
+			margin: 0;
+			padding: 1em 0 0;
+		}
+		.page-width {
+			width: 50%;
+			margin: 0 auto;
+			text-align: center;
+		}
+		#page-wrap {
+			background: #BBA14D;
+			color: #fff;
+			-webkit-border-radius: 1em;
+			border-radius: 1em;
+			-webkit-box-shadow: 1px 1px 15px 0 #000;
+			box-shadow: 1px 1px 15px 0 #000;
+			padding: 1.5em;
+			margin: .5em 0;
+		}
+		#page-wrap.pass {
+			background: #70BEA4;
+		}
+		#page-wrap.fail {
+			background: #85211C;
+		}
+		h1 {
+			font-family: 'Metal Mania', cursive;
+			font-weight: normal;
+			font-size: 4em;
+			text-align: center;
+			margin: 0;
+			text-shadow: 1px 1px 2px #444;
+		}
+		#tester-container {
+			text-align: center;
+		}
+		#tester-container div {
+			margin: 1em;
+		}
+		textarea {
+			display: block;
+			width: 80%;
+			margin: 0 auto;
+			padding: 1em;
+			-webkit-border-radius: .5em;
+			border-radius: .5em;
+		}
+		a {
+			color: #a6a6a6;
+			text-decoration: none;
+			font-size: .75em;
+		}
+	</style>
 </head>
 <body>
 
-	<div id="page-wrap">
-		<header>
-			<h1>Match Media Manager</h1>
-		</header>
-		<section id="tester-container">
-			<p>Test a media query by entering it in the box and clicking "test"</p>
-			<textarea id="mmm-tester"></textarea>
-			<button id="tttteeeesssstttt">Test</button>
-		</section>
-		<script>
-			var c = document.getElementById('tester-container'),
-				d = document.createElement('div');
-			function passes(){
-				d.innerHTML = "Passes!!!!  Your Media Query is currently in effect.";
-				d.className = "pass";
-				c.appendChild(d);
-			}
-			function fails(){
-				d.innerHTML = "Fail!!!!  Your Media Query is <strong>NOT</strong> currently in effect.";
-				d.className = "fail";
-				c.appendChild(d);
-			}
-			document.getElementById('tttteeeesssstttt').onclick = function(){
-				mmm = MatchMediaManager();
-				var mq = document.getElementById('mmm-tester').value;
-				mmm.addMediaQuery(mq, {
-					on : passes,
-					off : fails
-				});
-			};
-		</script>
+	<div class="page-width">
+		<div id="page-wrap" class="page-width">
+			<header>
+				<h1>Match Media Manager</h1>
+			</header>
+			<section id="tester-container">
+				<p>Test a media query by entering it in the box.</p>
+				<textarea id="mmm-tester">screen and (min-width: 760px)</textarea>
+			</section>
+		</div>
+		<a href="https://github.com/wesleytodd/Match-Media-Manager">Project Home</a>
 	</div>
 
 	<script src="matchmedia/matchMedia.js"></script>
 	<script src="matchMediaManager.js"></script>
 	<!--<script src="matchMediaManager.min.js"></script>-->
 	<script>
-		var mmm = MatchMediaManager({
-			'(min-width: 500px)' : function(){
-				console.log('more than 500px');
-			},
-			'(max-width: 499px)' : function(){
-				console.log('less than 500px');
-			}
-		});
+		var c = document.getElementById('tester-container'),
+			w = document.getElementById('page-wrap'),
+			d = document.createElement('div');
+		function passes(){
+			d.innerHTML = "Passes!!!!  Your Media Query is currently in effect.";
+			w.className = "pass";
+			c.appendChild(d);
+		}
+		function fails(){
+			d.innerHTML = "Fail!!!!  Your Media Query is <strong>NOT</strong> currently in effect.";
+			w.className = "fail";
+			c.appendChild(d);
+		}
+		var i = document.getElementById('mmm-tester');
+		i.onkeyup = function(){
+			delete window.mmm;
+			mmm = MatchMediaManager();
+			var mq = document.getElementById('mmm-tester').value;
+			mmm.addMediaQuery(mq, {
+				on : passes,
+				off : fails
+			});
+		};
+		i.onkeyup();
 	</script>
 </body>
 </html>

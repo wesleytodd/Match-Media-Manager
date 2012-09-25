@@ -10,12 +10,12 @@
 		<script>
 			mocha.setup({
 				ui : 'bdd',
-				globals : []
+				ignoreLeaks : true
 			});
-			__MODULE__ = true;
+			MatchMediaManager = true;
 		</script>
 
-		<script src="../module.js" ></script>
+		<script src="../matchMediaManager.js" ></script>
 		<script src="test.js"></script>
 		<script>
 			jQuery(document).ready(function($){

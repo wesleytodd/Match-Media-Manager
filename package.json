@@ -1,6 +1,6 @@
 {
 	"name": "Match Media Manager",
-	"version": "0.1",
+	"version": "0.2",
 	"author": "Wes Todd <wes@wesleytodd.com>",
 	"description": "A manager object for breakpoints in a responsive design for triggering callback functions.",
 	"homepage": "http://wesleytodd.com",

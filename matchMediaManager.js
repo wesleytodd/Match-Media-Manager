@@ -2,7 +2,7 @@
  * MatchMediaManager
  * http://wesleytodd.com/
  *
- * Version 0.1
+ * Version 0.2
  *
  * Basic Usage:
  *
@@ -21,7 +21,7 @@
  * });
  *
  */
-var MatchMediaManager = (function($, _, MatchMediaManager) {
+var MatchMediaManager = (function($, _, reveal) {
 
 	/**
 	 * typeof == obj wraper
@@ -154,6 +154,16 @@ var MatchMediaManager = (function($, _, MatchMediaManager) {
 	};
 
 	/**
+	 * Remove a media query from the manager
+	 *
+	 * @param string mediaQuery (optional) A valid media query string
+	 * @param function|object (optional) Either a function to remove from the on event, or a hash of on/off functions
+	 */
+	MatchMediaManager.prototype.removeMediaQuery = function(mediaQuery, callbacks) {
+		
+	}
+
+	/**
 	 * MediaQuery constructor
 	 *
 	 * This object manages an individual media querie's state
@@ -231,6 +241,15 @@ var MatchMediaManager = (function($, _, MatchMediaManager) {
 	/**
 	 * Reveal access to MatchMediaManager
 	 */
+	if (!_t(reveal, 'undefined') && reveal === true) {
+		MatchMediaManager._internal = {
+			_t : _t,
+			each : each,
+			resize : resize,
+			Callbacks : Callbacks,
+			MediaQuery : MediaQuery
+		}
+	}
 	return MatchMediaManager;
 
-})(window.jQuery, window._);
+})(window.jQuery, window._, MatchMediaManager);
