@@ -35,17 +35,17 @@ var MatchMediaManager = (function($, _, reveal) {
 	 *
 	 * Will use underscore's each function if it is present
 	 */
-	var each = (!_t(_, 'undefined')) ? _.each : function(obj, iterator, context){
-		if(obj == null) return;
-		if(Array.prototype.forEach && obj.forEach === Array.prototype.forEach){
+	var each = (!_t(_, 'undefined')) ? _.each : function(obj, iterator, context) {
+		if (obj === null) return;
+		if (Array.prototype.forEach && obj.forEach === Array.prototype.forEach) {
 			obj.forEach(iterator, context);
-		}else if(Object.prototype.toString(obj) == '[object Array]' || !!(obj && hasOwnProperty.call(obj, 'callee'))){
+		} else if (Object.prototype.toString(obj) == '[object Array]' || !!(obj && Object.prototype.hasOwnProperty.call(obj, 'callee'))) {
 			for(var i = 0, l = obj.length; i < l; i++){
 				if(iterator.call(context, obj[i], i, obj) === {}) return;
 			}
 		} else {
-			for(var key in obj){
-				if(iterator.call(context, obj[key], key, obj) === {}) return;
+			for (var key in obj) {
+				if (iterator.call(context, obj[key], key, obj) === {}) return;
 			}
 		}
 	};
@@ -58,11 +58,11 @@ var MatchMediaManager = (function($, _, reveal) {
 	var Callbacks = (!_t($, 'undefined')) ? $.Callbacks : function() {
 		var list = [];
 		return {
-			add : function(fnc){
+			add : function(fnc) {
 				list.push(fnc);
 			},
 			fire : function(){
-				each(list, function(fnc){
+				each(list, function(fnc) {
 					fnc.call();
 				});
 			}
@@ -160,8 +160,8 @@ var MatchMediaManager = (function($, _, reveal) {
 	 * @param function|object (optional) Either a function to remove from the on event, or a hash of on/off functions
 	 */
 	MatchMediaManager.prototype.removeMediaQuery = function(mediaQuery, callbacks) {
-		
-	}
+
+	};
 
 	/**
 	 * MediaQuery constructor
@@ -248,7 +248,7 @@ var MatchMediaManager = (function($, _, reveal) {
 			resize : resize,
 			Callbacks : Callbacks,
 			MediaQuery : MediaQuery
-		}
+		};
 	}
 	return MatchMediaManager;
 
