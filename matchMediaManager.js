@@ -53,18 +53,24 @@ var MatchMediaManager = (function($, _, reveal) {
 	/**
 	 * Callbacks list
 	 *
-	 * Will use jQuery's $.Callbacks if it is present, otherwise it uses the custom minimal version needed
+	 * Based on jQuery's $.Callbacks, just with the bare minimum functionality
 	 */
-	var Callbacks = (!_t($, 'undefined')) ? $.Callbacks : function() {
+	var Callbacks = function() {
 		var list = [];
 		return {
 			add : function(fnc) {
 				list.push(fnc);
 			},
 			fire : function(){
+				var args = arguments[0];
 				each(list, function(fnc) {
-					fnc.call();
+					args = fnc.call(this, args);
 				});
+				return args;
+			},
+			has : function(fnc){
+				if(_t(fnc, 'undefined')) return !!list.length;
+				return list.indexOf(fnc) != -1;
 			}
 		};
 	};
@@ -93,7 +99,11 @@ var MatchMediaManager = (function($, _, reveal) {
 			this._mediaQueries = {};
 			if (_t(mediaQueries, 'object')) {
 				each(mediaQueries, function(k, v) {
-					_me.addMediaQuery(v, k);
+					if (!_t(k.additionalTest, 'undefined')){
+						var a = k.additionalTest;
+						delete k.additionalTest;
+					}
+					_me.addMediaQuery(v, k, a);
 				});
 			}
 			resize(function(){
@@ -117,7 +127,7 @@ var MatchMediaManager = (function($, _, reveal) {
 	 * @param string mediaQuery A valid media query string
 	 * @param function|object callbacks Either a function to attach to the 'on' event, or a hash of event:callback
 	 */
-	MatchMediaManager.prototype.addMediaQuery = function(mediaQuery, callbacks) {
+	MatchMediaManager.prototype.addMediaQuery = function(mediaQuery, callbacks, additionalTest) {
 
 		// if the media query dosent already exist, create it
 		if (_t(this._mediaQueries[mediaQuery], 'undefined')) {
@@ -142,6 +152,11 @@ var MatchMediaManager = (function($, _, reveal) {
 
 		}
 
+		// if an additional test is provided, add it
+		if (!_t(additionalTest, 'undefined')) {
+			_mq.additionalTest(additionalTest);
+		}
+
 		// test the media query when it is added, but not the others already added
 		var matches = _mq.test(false);
 		if (matches && _t(callbacks, 'function')) {
@@ -158,10 +173,10 @@ var MatchMediaManager = (function($, _, reveal) {
 	 *
 	 * @param string mediaQuery (optional) A valid media query string
 	 * @param function|object (optional) Either a function to remove from the on event, or a hash of on/off functions
-	 */
+	 *
 	MatchMediaManager.prototype.removeMediaQuery = function(mediaQuery, callbacks) {
-
-	};
+		//coming soon
+	};/**/
 
 	/**
 	 * MediaQuery constructor
@@ -175,6 +190,7 @@ var MatchMediaManager = (function($, _, reveal) {
 		this.matches = false;
 		this._on = Callbacks();
 		this._off = Callbacks();
+		this._additionalTests = Callbacks();
 	};
 
 	/**
@@ -196,6 +212,15 @@ var MatchMediaManager = (function($, _, reveal) {
 	};
 
 	/**
+	 * Attach an additional test to filter the media query results
+	 *
+	 * @param function fnc Callback function
+	 */
+	MediaQuery.prototype.additionalTest = function(fnc) {
+		this._additionalTests.add(fnc);
+	};
+
+	/**
 	 * Test the status of the media query
 	 *
 	 * @param bool fire Should the callbacks be fired? (true = yes, false = no)
@@ -207,6 +232,10 @@ var MatchMediaManager = (function($, _, reveal) {
 
 		// test the media query using matchMedia (requires polyfill in non-supported browsers)
 		var matches = matchMedia(this.query).matches;
+
+		// Pass the original results to the additional tests
+		if (this._additionalTests.has())
+			matches = this.fireAdditionalTests(matches);
 
 		// if firing callbacks and the status has changed, then fire away
 		if (fire && this.matches !== matches) {
@@ -236,6 +265,14 @@ var MatchMediaManager = (function($, _, reveal) {
 	 */
 	MediaQuery.prototype.fireOff = function() {
 		this._off.fire();
+	};
+
+
+	/**
+	 * Fires the additional tests
+	 */
+	MediaQuery.prototype.fireAdditionalTests = function(mqResult) {
+		return this._additionalTests.fire(mqResult);
 	};
 
 	/**

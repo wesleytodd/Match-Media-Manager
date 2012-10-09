@@ -208,5 +208,60 @@ describe('MatchMediaManager', function(){
 			expect(i).to.be(2);
 		});
 
+		it('add additional JavaScript test to media query', function(){
+			var mmm = MatchMediaManager(),
+				testFnc = function(result){
+					return result;
+				};
+
+			mmm.addMediaQuery('screen', function(){}, testFnc);
+			expect(mmm._mediaQueries['screen']._additionalTests.has(testFnc)).to.be.ok();
+		});
+
+		it('pass the media query result to the additional test function', function(){
+			var mmm = MatchMediaManager(),
+				testFnc = function(result){
+					expect(result).to.be(true);
+					return result;
+				},
+				testFnc2 = function(result){
+					expect(result).to.be(false);
+					return result;
+				};
+
+			mmm.addMediaQuery('screen', function(){}, testFnc);
+			mmm.addMediaQuery('print', function(){}, testFnc2);
+		});
+
+		it('alter the result inside an additional test function', function(){
+			var mmm = MatchMediaManager(),
+				t = true,
+				f = true,
+				testFnc = function(result){
+					return !result;
+				};
+
+			mmm.addMediaQuery('screen', function(){
+				t = false;
+			}, testFnc);
+			mmm.addMediaQuery('print', function(){
+				f = false;
+			}, testFnc);
+
+			expect(t).to.be.ok();
+			expect(f).to.not.be.ok();
+		});
+
+		it('add media queries with additional tests on instantiation', function(){
+			var testFnc = function(){},
+				mmm = MatchMediaManager({
+					'screen' : {
+						on : function(){},
+						additionalTest : testFnc
+					}
+				});
+			mmm._mediaQueries['screen']._additionalTests.has(testFnc);
+		});
+
 	});
 });
