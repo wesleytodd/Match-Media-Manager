@@ -21,7 +21,7 @@ This same technique can be used to move elemnts around the page, setup plugins o
 
 The library requires the [matchMedia pollyfill](https://github.com/paulirish/matchMedia.js) for support beyond VERY modern browsers, but defaults to native support.  It is included in the minified version by default, but if you are already loading it for another reason, feel free to remove it. The library will also delegate parts of it's functionality to jQuery and Underscore if they are present.
 
-**Test Page:** [http://media-manager.wtdev.me:8000/](http://media-manager.wtdev.me:8000/)
+**Test Page:** [http://match-media-manager.wtdev.me/](http://match-media-manager.wtdev.me/)
 
 ## Usage ##
 
