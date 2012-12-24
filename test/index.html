@@ -18,8 +18,10 @@
 		<script src="../matchMediaManager.js" ></script>
 		<script src="test.js"></script>
 		<script>
-			window.onload = function(){
-				mocha.run();
+			if (navigator.userAgent.indexOf('PhantomJS') < 0) {
+				window.onload = function(){
+					mocha.run();
+				}
 			}
 		</script>
 	</head>

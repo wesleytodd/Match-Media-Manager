@@ -6,14 +6,11 @@ module.exports = function(grunt){
 			minBanner : '/* <%= pkg.name %> | Version <%= pkg.version %> | <%= pkg.repository.url %> */'
 		},
 		lint : {
-			all : [
-				'*.js',
-				'test/*.js'
-			]
+			all : [ 'matchMediaManager.js' ]
 		},
 		watch : {
 			files : '<config:lint.all>',
-			tasks : 'lint'
+			tasks : 'lint mocha'
 		},
 		jshint : {
 			options : {
@@ -21,9 +18,13 @@ module.exports = function(grunt){
 			},
 			globals : {}
 		},
-		exServer : {
-			port : 8000,
-			root : './examples'
+		mocha: {
+			index: {
+				src : ['test/index.html'],
+				options : {
+					run : true
+				}
+			}
 		}
 	});
 
@@ -35,5 +36,7 @@ module.exports = function(grunt){
 		grunt.file.write('matchMediaManager.min.js', minSrc);
 	});
 
-	grunt.registerTask('default', 'lint');
+	grunt.loadNpmTasks('grunt-mocha');
+
+	grunt.registerTask('default', 'lint mocha');
 };

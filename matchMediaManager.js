@@ -99,8 +99,9 @@ var MatchMediaManager = (function($, _, reveal) {
 			this._mediaQueries = {};
 			if (_t(mediaQueries, 'object')) {
 				each(mediaQueries, function(k, v) {
+					var a;
 					if (!_t(k.additionalTest, 'undefined')){
-						var a = k.additionalTest;
+						a = k.additionalTest;
 						delete k.additionalTest;
 					}
 					_me.addMediaQuery(v, k, a);
@@ -266,7 +267,6 @@ var MatchMediaManager = (function($, _, reveal) {
 	MediaQuery.prototype.fireOff = function() {
 		this._off.fire();
 	};
-
 
 	/**
 	 * Fires the additional tests
