@@ -1,21 +1,32 @@
 {
-	"name": "Match Media Manager",
-	"version": "0.2",
-	"author": "Wes Todd <wes@wesleytodd.com>",
-	"description": "A manager object for breakpoints in a responsive design for triggering callback functions.",
-	"homepage": "http://wesleytodd.com",
-	"dependencies" : {
-		'matchMedia' : '*'
-	},
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/wesleytodd/Match-Media-Manager.git"
-	},
-	"scripts": {
-		"browser-setup": "make browser-setup",
-		"node-setup": "make node-setup",
-		"test": "make test",
-		"test-cov": "make text-cov",
-		"closure": "make closure"
-	}
+  "name": "Match-Media-Manager",
+  "version": "0.0.3",
+  "description": "Library for attaching callback functions to Media Query breakpoints",
+  "main": "matchMediaManager.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/wesleytodd/Match-Media-Manager.git"
+  },
+  "keywords": [
+    "media",
+    "query",
+    "responsive",
+    "design",
+    "mobile"
+  ],
+  "author": "Wes Todd",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "gitHead": "497fb3aeb8530f4303ace22e1778573621365895",
+  "devDependencies": {
+    "mocha": "~1.7.4",
+    "expect.js": "~0.2.0",
+    "grunt": "~0.3.17"
+  }
 }
