@@ -98,9 +98,11 @@
 		}
 		var i = document.getElementById('mmm-tester');
 		i.onkeyup = function(){
-			delete window.mmm;
-			mmm = MatchMediaManager();
+			if (typeof mmm === 'undefined') {
+				mmm = MatchMediaManager();
+			}
 			var mq = document.getElementById('mmm-tester').value;
+			mmm._mediaQueries = {};
 			mmm.addMediaQuery(mq, {
 				on : passes,
 				off : fails
