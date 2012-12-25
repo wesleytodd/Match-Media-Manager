@@ -2,7 +2,7 @@
  * MatchMediaManager
  * http://wesleytodd.com/
  *
- * Version 0.2
+ * Version 1.0.0
  *
  * Basic Usage:
  *
@@ -12,7 +12,7 @@
  *			// More than 500px
  *		},
  *		off : function(){
- *			// less than 500px
+ *			// less than 501px
  *		}
  * });
  *
@@ -27,27 +27,8 @@ var MatchMediaManager = (function($, _, reveal) {
 	 * typeof == obj wraper
 	 */
 	var _t = function(obj, type) {
+		if (typeof type === 'undefined') type = 'undefined';
 		return typeof obj == type;
-	};
-
-	/**
-	 * foreEach implementation
-	 *
-	 * Will use underscore's each function if it is present
-	 */
-	var each = (!_t(_, 'undefined')) ? _.each : function(obj, iterator, context) {
-		if (obj === null) return;
-		if (Array.prototype.forEach && obj.forEach === Array.prototype.forEach) {
-			obj.forEach(iterator, context);
-		} else if (Object.prototype.toString(obj) == '[object Array]' || !!(obj && Object.prototype.hasOwnProperty.call(obj, 'callee'))) {
-			for(var i = 0, l = obj.length; i < l; i++){
-				if(iterator.call(context, obj[i], i, obj) === {}) return;
-			}
-		} else {
-			for (var key in obj) {
-				if (iterator.call(context, obj[key], key, obj) === {}) return;
-			}
-		}
 	};
 
 	/**
@@ -61,16 +42,17 @@ var MatchMediaManager = (function($, _, reveal) {
 			add : function(fnc) {
 				list.push(fnc);
 			},
-			fire : function(){
-				var args = arguments[0];
-				each(list, function(fnc) {
-					args = fnc.call(this, args);
-				});
+			fire : function() {
+				var args = arguments[0],
+					l = list.length;
+				for (var i = 0; i < l; i++) {
+					args = list[i].call(this, args);
+				}
 				return args;
 			},
 			has : function(fnc){
-				if(_t(fnc, 'undefined')) return !!list.length;
-				return list.indexOf(fnc) != -1;
+				if(_t(fnc)) return !!list.length;
+				return list.indexOf(fnc) !== -1;
 			}
 		};
 	};
@@ -79,7 +61,7 @@ var MatchMediaManager = (function($, _, reveal) {
 	 * window.onResize
 	 */
 	var resize = function(fnc) {
-		if (!_t($, 'undefined')) {
+		if (!_t($)) {
 			$(window).resize(fnc);
 		} else if (window.addEventListener) {
 			window.addEventListener('resize', fnc);
@@ -95,21 +77,21 @@ var MatchMediaManager = (function($, _, reveal) {
 		if ( !(this instanceof MatchMediaManager) ) {
 			return new MatchMediaManager(mediaQueries);
 		} else {
-			var _me = this;
 			this._mediaQueries = {};
 			if (_t(mediaQueries, 'object')) {
-				each(mediaQueries, function(k, v) {
-					var a;
-					if (!_t(k.additionalTest, 'undefined')){
-						a = k.additionalTest;
-						delete k.additionalTest;
+				for (var k in mediaQueries) {
+					var a,
+						v = mediaQueries[k];
+					if (!_t(v.additionalTest)) {
+						a = v.additionalTest;
+						delete v.additionalTest;
 					}
-					_me.addMediaQuery(v, k, a);
-				});
+					this.addMediaQuery(k, v, a);
+				}
 			}
-			resize(function(){
-				_me.testQueries();
-			});
+			/*resize(function(){
+				this.testQueries();
+			});*/
 		}
 	};
 
@@ -117,9 +99,9 @@ var MatchMediaManager = (function($, _, reveal) {
 	 * Test all the attached Media Queries
 	 */
 	MatchMediaManager.prototype.testQueries = function() {
-		each(this._mediaQueries, function(mq){
-			mq.test();
-		});
+		for (var i in this._mediaQueries) {
+			this._mediaQueries[i].test();
+		}
 	};
 
 	/**
@@ -131,7 +113,7 @@ var MatchMediaManager = (function($, _, reveal) {
 	MatchMediaManager.prototype.addMediaQuery = function(mediaQuery, callbacks, additionalTest) {
 
 		// if the media query dosent already exist, create it
-		if (_t(this._mediaQueries[mediaQuery], 'undefined')) {
+		if (_t(this._mediaQueries[mediaQuery])) {
 			this._mediaQueries[mediaQuery] = new MediaQuery(mediaQuery);
 		}
 
@@ -147,9 +129,9 @@ var MatchMediaManager = (function($, _, reveal) {
 		} else if (_t(callbacks, 'object')) {
 
 			// if callbacks is an object, loop through the properties and call associated functions to add callbacks
-			each(callbacks, function(fnc, e) {
-				_mq[e](fnc);
-			});
+			for (var e in callbacks) {
+				_mq[e](callbacks[e]);
+			}
 
 		}
 
@@ -229,7 +211,7 @@ var MatchMediaManager = (function($, _, reveal) {
 	MediaQuery.prototype.test = function(fire) {
 
 		// fire defaults to true
-		fire = (typeof fire != 'undefined') ? fire : true;
+		fire = (!_t(fire)) ? fire : true;
 
 		// test the media query using matchMedia (requires polyfill in non-supported browsers)
 		var matches = matchMedia(this.query).matches;
@@ -278,10 +260,9 @@ var MatchMediaManager = (function($, _, reveal) {
 	/**
 	 * Reveal access to MatchMediaManager
 	 */
-	if (!_t(reveal, 'undefined') && reveal === true) {
+	if (!_t(reveal) && reveal === true) {
 		MatchMediaManager._internal = {
 			_t : _t,
-			each : each,
 			resize : resize,
 			Callbacks : Callbacks,
 			MediaQuery : MediaQuery

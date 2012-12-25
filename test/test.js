@@ -9,28 +9,6 @@ describe('MatchMediaManager', function(){
 			expect(_t('1', 'string')).to.be.ok();
 		});
 
-		it('each should iterate a list', function(){
-			var each = MatchMediaManager._internal.each;
-			var i = 0;
-			each([1,2,3,1], function(v){
-				i += v;
-			});
-			expect(i).to.be(7);
-
-			var key = '',
-				val = '';
-			each({
-				k : 'v',
-				e : 'a',
-				y : 'l'
-			}, function(v, k){
-				key += k;
-				val += v;
-			});
-			expect(key).to.be('key');
-			expect(val).to.be('val');
-		});
-
 		it('Callbacks should add and fire functions', function(){
 			var Callbacks = MatchMediaManager._internal.Callbacks,
 				c = Callbacks(),
