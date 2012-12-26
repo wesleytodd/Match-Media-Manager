@@ -21,7 +21,7 @@
  * });
  *
  */
-var MatchMediaManager = (function($, _, reveal) {
+var MatchMediaManager = (function($, reveal) {
 
 	/**
 	 * typeof == obj wraper
@@ -89,9 +89,10 @@ var MatchMediaManager = (function($, _, reveal) {
 					this.addMediaQuery(k, v, a);
 				}
 			}
-			/*resize(function(){
-				this.testQueries();
-			});*/
+			var me = this;
+			resize(function(){
+				me.testQueries();
+			});
 		}
 	};
 
@@ -155,11 +156,14 @@ var MatchMediaManager = (function($, _, reveal) {
 	 * Remove a media query from the manager
 	 *
 	 * @param string mediaQuery (optional) A valid media query string
-	 * @param function|object (optional) Either a function to remove from the on event, or a hash of on/off functions
-	 *
-	MatchMediaManager.prototype.removeMediaQuery = function(mediaQuery, callbacks) {
-		//coming soon
-	};/**/
+	 */
+	MatchMediaManager.prototype.removeMediaQuery = function(mediaQuery) {
+		// If nothing provided, clear out all media queries
+		if (_t(mediaQuery)) return this._mediaQueries = {};
+		
+		// If a mediaQuery is passed, clear out that media query
+		delete this._mediaQueries[mediaQuery];
+	};
 
 	/**
 	 * MediaQuery constructor
@@ -270,4 +274,4 @@ var MatchMediaManager = (function($, _, reveal) {
 	}
 	return MatchMediaManager;
 
-})(window.jQuery, window._, MatchMediaManager);
+})(window.jQuery, MatchMediaManager);

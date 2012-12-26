@@ -241,5 +241,23 @@ describe('MatchMediaManager', function(){
 			mmm._mediaQueries['screen']._additionalTests.has(testFnc);
 		});
 
+		it('remove all media queries', function(){
+			var mmm = MatchMediaManager({
+				'screen' : function(){},
+				'print' : function(){}
+			});
+			expect(mmm._mediaQueries).to.not.be.empty();
+			mmm.removeMediaQuery();
+			expect(mmm._mediaQueries).to.be.empty();
+		});
+
+		it('remove all a single media queries', function(){
+			var mmm = MatchMediaManager({
+				'screen' : function(){},
+				'print' : function(){}
+			});
+			mmm.removeMediaQuery('screen');
+			expect(mmm._mediaQueries['screen']).to.be(undefined);
+		});
 	});
 });
