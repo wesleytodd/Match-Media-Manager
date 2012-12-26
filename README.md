@@ -35,8 +35,10 @@ The second can be used to add new Media Queries to the list on the fly:
 		// less than 150em
 	});
 
-## The Future ##
+You can also remove media queries using `removeMediaQuery`, with no arguments it clears all media queries:
 
-I need to mess with it a bit more, but I think that a `removeMediQuery` method would be helpful.  I will also be writing unit tests, I just didn't have time for that yet.
+	mmm.removeMediaQuery();
 
-Other Ideas?  [Email me](http://wesleytodd.com/contact/).
+Or with a media query string to remove just the callbacks on that media query:
+
+	mmm.removeMediaQuery('(max-width: 150em');
