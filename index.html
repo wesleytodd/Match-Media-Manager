@@ -80,8 +80,8 @@
 	</div>
 
 	<script src="matchmedia/matchMedia.js"></script>
-	<!--<script src="matchMediaManager.js"></script>-->
-	<script src="matchMediaManager.min.js"></script>
+	<script src="matchMediaManager.js"></script>
+	<!--<script src="matchMediaManager.min.js"></script>-->
 	<script>
 		var c = document.getElementById('tester-container'),
 			w = document.getElementById('page-wrap'),
@@ -97,12 +97,10 @@
 			c.appendChild(d);
 		}
 		var i = document.getElementById('mmm-tester');
+		var mmm = MatchMediaManager();
 		i.onkeyup = function(){
-			if (typeof mmm === 'undefined') {
-				mmm = MatchMediaManager();
-			}
+			mmm.removeMediaQuery();
 			var mq = document.getElementById('mmm-tester').value;
-			mmm._mediaQueries = {};
 			mmm.addMediaQuery(mq, {
 				on : passes,
 				off : fails
