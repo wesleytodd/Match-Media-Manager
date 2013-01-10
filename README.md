@@ -1,5 +1,7 @@
 # Match Media Manager #
 
+[Example Page](http://match-media-manager.wesleytodd.com/)
+
 `MatchMediaManager` is a library to assist with javascript callbacks based on Media Queries.  For example, if a link opens a light-box when on a large screen, but you need to re-direct that to a single page version of the content for small screens, you can do something like (jQuery is not required):
 
 	MatchMediaManager({
@@ -20,8 +22,6 @@
 This same technique can be used to move elemnts around the page, setup plugins or fork code for anything that you can test with a Media Query.
 
 The library requires the [matchMedia pollyfill](https://github.com/paulirish/matchMedia.js) for support beyond VERY modern browsers, but defaults to native support.  It is included in the minified version by default, but if you are already loading it for another reason, feel free to remove it. The library will also delegate parts of it's functionality to jQuery and Underscore if they are present.
-
-**Test Page:** [http://match-media-manager.wtdev.me/](http://match-media-manager.wtdev.me/)
 
 ## Usage ##
 
